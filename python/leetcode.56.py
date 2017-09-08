@@ -58,7 +58,7 @@ class Solution(object):
                     break
                 i += 1
             ans.append(Interval(s,  e))
-            print (s, e)
+            # print (s, e)
         return ans
 def make_interval_list(lst):
     ans = []
