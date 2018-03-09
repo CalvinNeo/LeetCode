@@ -4,7 +4,7 @@ class TreeNode(object):
         self.val = x
         self.left = None
         self.right = None
-
+        
 def print_tree(root, dep):
     print "{}{}".format("\t"*dep, root.val)
     if root.left != None:
@@ -18,13 +18,11 @@ def build_tree(n, root, p):
     lson = 2 * p + 1
     rson = 2 * p + 2
     if lson < len(n) and n[lson] != None:
-        left = TreeNode(0)
-        build_tree(n, left, lson)
-        root.left = left
+        root.left = TreeNode(0)
+        build_tree(n, root.left, lson)
     if rson < len(n) and n[rson] != None:
-        right = TreeNode(0)
-        build_tree(n, right, rson)
-        root.right = right
+        root.right = TreeNode(0)
+        build_tree(n, root.right, rson)
 
 class Solution(object):
     def maxPathSum(self, root):
