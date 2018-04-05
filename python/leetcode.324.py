@@ -5,7 +5,7 @@ def fk(arr, fr, to, k):
     l, r = fr, to
     while l < r:
         # Must in front of the next while
-        while l < r and arr[r] >= p:
+        while l < r and arr[r] >= p: # use `>=` to enable sequence of identity elements
             r -= 1
         arr[l] = arr[r]
         while l < r and arr[l] <= p:
@@ -25,6 +25,7 @@ def fk(arr, fr, to, k):
 def nth_element(arr, n):
     return fk(arr, 0, len(arr) - 1, n)
 
+# https://paste.ubuntu.com/26511493/
 class Solution(object):      
     def wiggleSort(self, nums):
         """
@@ -34,8 +35,9 @@ class Solution(object):
         length = len(nums)
         if length < 2:
             return
-        mid = fk(nums, 0, length - 1, (length - 1) / 2)
+        mid = nth_element(nums, (length - 1) / 2)
         l, eq, r = 0, 0, length - 1
+        # 1 3 5 0 2 4 ...
         m = lambda i : (1+2*i) % (length|1)
         while eq <= r:
             if nums[m(eq)] > mid:
@@ -48,16 +50,11 @@ class Solution(object):
             else:
                 eq += 1
 
-        # kk = []
-        # for i in xrange(length):
-        #     kk.append(nums[m(i)])
-        # print kk
-
 sln = Solution()
 nn = [1]
 nn = [1,1,1,2,2,2]
-nn = [1,1,1,2,2]
+# nn = [1,1,1,2,2]
 # nn = [2,1,1,2,1,3,3,3,1,3,1,3,2]
-nn = [1,3,2,2,3,1]
+# nn = [1,3,2,2,3,1]
 sln.wiggleSort(nn)
 print nn

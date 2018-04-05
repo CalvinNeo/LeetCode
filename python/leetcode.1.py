@@ -32,6 +32,7 @@ class Solution(object):
         :type target: int
         :rtype: List[int]
         """
+        # Use 2 Pointers
         X = list(nums)
         nums.sort()
         i, j = 0, len(nums) - 1
