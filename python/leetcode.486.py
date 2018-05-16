@@ -1,5 +1,5 @@
-# 这两种搜索的方法都不能成功运行，但用C++改写后就可以了
 import sys
+# TLE
 def dfs(deep, total, nums, l, r):
     sgn = 1 if deep % 2 == 0 else -1
     if deep == total - 1:

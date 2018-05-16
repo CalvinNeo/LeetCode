@@ -14,7 +14,7 @@ class Solution(object):
                 hold = prices[i]
             else:
                 # important
-                hold = prices[i]
+                hold = min(prices[i], hold)
         return prof
 
 sln = Solution()

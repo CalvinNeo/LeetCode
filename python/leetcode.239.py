@@ -16,13 +16,19 @@ class Solution(object):
             # e is index to be append
             l, r = nums[s], nums[e]
             if l < cur:
+                # If the element which create record `cur` is CERTAINY not removed
                 if r <= cur:
+                    # If the newly inserted `r` is not greater than `cur`,
+                    # It will surely not break the previous record of `cur`
                     ans.append(cur)
                 else:
                     # r > cur
+                    # If the newly inserted `r` is not greater than `cur`,
+                    # It breaks the previous record of `cur`
                     cur = r
                     ans.append(cur)
             elif l == cur:
+                # The element which create record `cur` may be removed
                 if r < cur:
                     # re calculate cur
                     cur = max(nums[s+1:e+1])

@@ -23,8 +23,13 @@ def build_tree(n, root, p):
         root.right = TreeNode(0)
         build_tree(n, root.right, rson)
 
-null = None
+def make_tree(n):
+    N1 = TreeNode(0)
+    build_tree(n, N1, 0)
+    return N1
 
+null = None
+inf = 0x3f3f3f3f
 
 class ListNode(object):
     def __init__(self, x):
@@ -52,3 +57,21 @@ def print_mat(mat):
     m = len(mat[0])
     for line in mat:
         print ' '.join(map(str, line))
+
+
+def Dijkstra(dis, vis, m):
+    dis = [inf for j in xrange(m)]
+    vis = [False for j in xrange(m)]
+    dis[0] = 0
+    for i in xrange(1, m + 1):
+        mark = -1
+        mindis = inf
+        for j in xrange(1, m + 1):
+            if not v[j] and dis[j] < mindis:
+                mindis = dis[j]
+                mark = j
+        v[mark] = 1
+        for j in xrange(1, m + 1):
+            if not v[j]:
+                dis[j] = min(dis[j], dis[mark] + G[mark][j])
+    return dis

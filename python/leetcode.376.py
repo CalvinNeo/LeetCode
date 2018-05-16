@@ -1,5 +1,5 @@
 class Solution(object):
-    def wiggleMaxLength(self, nums):
+    def wiggleMaxLengthWA(self, nums):
         """
         :type nums: List[int]
         :rtype: int
@@ -40,6 +40,116 @@ class Solution(object):
         m = max(m, max(lenup))
         m = max(m, max(lendown))
         return m
+
+    def wiggleMaxLengthLISWA(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        import bisect
+        n = len(nums)
+        if n == 0:
+            return 0
+
+        inf = 55555555
+        up = [inf for i in xrange(n + 1)]
+        down = [-inf for i in xrange(n + 1)]
+
+        ub = 1
+        db = 1
+        up[ub] = nums[0]
+        down[db] = nums[0]
+
+        maxlen = 1
+        for i in xrange(n):
+            # print "process", nums[i]
+            ui = ub
+            di = db
+            # from up[ui] downto nums[i]
+            while ui > 0 and not up[ui] > nums[i]:
+                ui -= 1
+            # from down[di] upto nums[i]
+            while di > 0 and not down[di] < nums[i]:
+                di -= 1
+
+            # print "ui {} di {}".format(ui, di)
+
+            if di > 0 and di < n : #and up[di + 1] >= nums[i]:
+                up[di + 1] = nums[i]
+                ub = max(di + 1, ub)
+                maxlen = max(maxlen, di + 1)
+                # print "update up[{}] to {}".format(di + 1, nums[i])
+
+            if ui > 0 and ui < n : #and down[ui + 1] <= nums[i]:
+                down[ui + 1] = nums[i]
+                db = max(ui + 1, db)
+                maxlen = max(maxlen, ui + 1)
+                # print "update down[{}] to {}".format(ui + 1, nums[i])
+
+        print up
+        print down
+        return maxlen
+
+    def wiggleMaxLengthDP(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        n = len(nums)
+        if n == 0:
+            return 0
+
+        inf = 55555555
+        up = [-inf for i in xrange(n + 1)]
+        down = [inf for i in xrange(n + 1)]
+
+        ub = 1
+        db = 1
+        up[ub] = nums[0]
+        down[db] = nums[0]
+
+        maxlen = 1
+        for i in xrange(n):
+            ui = ub
+            di = db
+            # from up[ui] downto nums[i]
+            while ui > 0 and not up[ui] > nums[i]:
+                ui -= 1
+            # from down[di] upto nums[i]
+            while di > 0 and not down[di] < nums[i]:
+                di -= 1
+
+            new_ui = di + 1
+            # if up[new_ui] < nums[i]:
+            up[new_ui] = nums[i]
+            ub = max(new_ui, ub)
+            maxlen = max(maxlen, new_ui)
+
+            new_di = ui + 1
+            # if down[new_di] > nums[i]:
+            down[new_di] = nums[i]
+            db = max(new_di, db)
+            maxlen = max(maxlen, new_di)
+
+        return maxlen
+
+    def wiggleMaxLength(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        p = 1
+        q = 1
+        n = len(nums)
+        if n == 0:
+            return 0
+
+        for i in xrange(1, n):
+            if nums[i] > nums[i - 1]:
+                p = q + 1
+            elif nums[i] < nums[i - 1]:
+                q = p + 1
+        return min(n, max(p, q))
 
 sln = Solution()
 # 0 1 6 7 2 6 67

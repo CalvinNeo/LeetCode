@@ -1,5 +1,5 @@
 class Solution(object):
-    def isPowerOfThree(self, n):
+    def isPowerOfThreeWA(self, n):
         """
         :type n: int
         :rtype: bool
@@ -8,6 +8,15 @@ class Solution(object):
         if n <= 0:
             return False
         return math.log(n, 3).is_integer()
+
+    def isPowerOfThree(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        if n <= 0:
+            return False
+        return 205891132094649 % n == 0
 
 
 sln = Solution()

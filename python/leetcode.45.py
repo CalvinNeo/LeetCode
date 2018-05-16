@@ -1,22 +1,21 @@
-# class Solution(object):
-#     def jump(self, nums):
-#         """
-#         :type nums: List[int]
-#         :rtype: int
-#         """
-#         import sys
-#         length = len(nums)
-#         l = [sys.maxint] * length
-#         l[0] = 0
-#         for i in xrange(0, length):
-#             s = nums[i]
-#             for forward in xrange(1, s + 1):
-#                 j = forward + i
-#                 if j < length:
-#                     l[j] = min(l[j], l[i] + 1)
-#         return l[length - 1]
-
 class Solution(object):
+    def jumpTLE(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        import sys
+        length = len(nums)
+        l = [sys.maxint] * length
+        l[0] = 0
+        for i in xrange(0, length):
+            s = nums[i]
+            for forward in xrange(1, s + 1):
+                j = forward + i
+                if j < length:
+                    l[j] = min(l[j], l[i] + 1)
+        return l[length - 1]
+
     def jump(self, nums):
         """
         :type nums: List[int]
