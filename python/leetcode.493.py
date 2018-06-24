@@ -1,3 +1,4 @@
+# coding: utf8
 def lowbit(x):
     return (x & -x) & 0xffffffff
 
@@ -28,6 +29,7 @@ class Solution(object):
         dp = [0 for i in xrange(maxn + 1)]
         ans = 0
 
+        # a 被用来做离散化
         for x in nums:
             a.append(x)
 
