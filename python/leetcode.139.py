@@ -75,7 +75,7 @@ def query(s, start, root):
         return -1, ans
 
 class Solution(object):
-    def wordBreak(self, s, wordDict):
+    def wordBreakWA(self, s, wordDict):
         """
         :type s: str
         :type wordDict: List[str]
@@ -122,6 +122,35 @@ class Solution(object):
                 print "start advanced to {}/{}".format(start, length)
 
         return end == length
+        
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: bool
+        """
+        l = len(s)
+        n = len(wordDict)
+
+        dp = [None for i in xrange(l)]
+
+        def dfs(pos):
+            if dp[pos] != None:
+                return dp[pos]
+            for i, w in enumerate(wordDict):
+                ll = len(w)
+                # print "now {}, try {}".format(pos, w)
+                if s[pos:pos+ll] == w:
+                    if pos + ll == l:
+                        dp[pos] = True
+                        return True
+                    elif pos + ll < l and dfs(pos + ll):
+                        dp[pos] = True
+                        return True
+            dp[pos] = False
+            return False
+
+        return dfs(0)
 
 sln = Solution()
 # t f f t f t t f

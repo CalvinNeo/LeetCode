@@ -37,18 +37,23 @@ class Solution(object):
                 # print "R[i] is %d" % (R[i])
             else:
                 j = 2 * p - i
-                # print "j %d" % j
                 bj = j + R[j] # will not be out of range
-                # print "bj %d" % bj
-                if bj > p:
-                    R[i] = bf(i, 2 * R[j] - R[p] + j - p)
-                else:
-                    R[i] = bf(i, R[j]) # Modified
+                # if bj > p:
+                #     R[i] = bf(i, 2 * R[j] - R[p] + j - p)
+                # else:
+                #     R[i] = bf(i, R[j]) # Modified
+                R[i] = min(bf(i, 2 * R[j] - R[p] + j - p), bf(i, R[j]))
             if makevalid(i + R[i]) > max_border:
                 p = i
         maxi, maxr = max(zip(range(l), R), key = lambda x: x[1])
         maxlen = 2 * maxr - 1
-        # print "+++++++++++++++++"
         # print maxi, maxr
         # print R
         return s[maxi - maxr + 1: maxi + maxr].replace('#', '')
+
+sln = Solution()
+print sln.longestPalindrome("aba")
+print sln.longestPalindrome("ztabcbayy")
+print sln.longestPalindrome("aaaa")
+print sln.longestPalindrome("")
+print sln.longestPalindrome("cbbd")

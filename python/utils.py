@@ -4,7 +4,7 @@ class TreeNode(object):
         self.left = None
         self.right = None
         
-def print_tree(root, dep):
+def print_tree(root, dep = 0):
     print "{}{}".format("\t"*dep, root.val)
     if root.left != None:
         print_tree(root.left, dep+1)
