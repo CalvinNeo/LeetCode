@@ -1,70 +1,65 @@
-# 866 c92.2
+# 867 c92.3
 
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-from utils import *
-
-import Queue
+# You Must First Print A Table!!
+P = [] 
+import bisect
 class Solution(object):
-    def subtreeWithAllDeepest(self, root):
+    def primePalindrome(self, N):
         """
-        :type root: TreeNode
-        :rtype: TreeNode
+        :type N: int
+        :rtype: int
         """
-        self.max_deep = 0
-        def find_deep(cur, deep):
-            self.max_deep = max(deep, self.max_deep)
-            if cur.left:
-                find_deep(cur.left, deep + 1)
-            if cur.right:
-                find_deep(cur.right, deep + 1)
-
-        lst = []
-        lnk = []
-        def dfs(cur, deep):
-            lnk.append(cur)
-            if deep == self.max_deep:
-                lst.append(list(lnk))
-            if cur.left:
-                dfs(cur.left, deep + 1)
-            if cur.right:
-                dfs(cur.right, deep + 1)
-            lnk.pop()
-
-        def make_ans():
-            l = 0
-            while 1:
-                finish = 0
-                cm = None
-                for i, lk in enumerate(lst):
-                    if not (l < len(lk)):
-                        finish = 1
-                        break
-                    if i == 0:
-                        cm = lk[l]
-                    else:
-                        if cm.val != lk[l].val:
-                            finish = 1
-                            break
-                if finish:
-                    break
-                else:
-                    l += 1
-            l -= 1
-            return lst[0][l]
-
-        if not root:
-            return None
-        find_deep(root, 0)
-        dfs(root, 0)
-        # print lst
-        return make_ans()
+        index = bisect.bisect_left(P, N)
+        return P[index]
 
 sln = Solution()
-print_tree(sln.subtreeWithAllDeepest(make_tree([3,5,1,6,2,0,8,null,null,7,4])))
-print_tree(sln.subtreeWithAllDeepest(make_tree([1])))
-print sln.subtreeWithAllDeepest(None)
+print sln.primePalindrome(1) # 2
+print sln.primePalindrome(6) # 7
+print sln.primePalindrome(7) # 7
+print sln.primePalindrome(8) # 11
+print sln.primePalindrome(13) # 101
+
+def print_table():
+    def createPalindrome(inp, b, isOdd):
+        n = inp
+        palin = inp
+        if (isOdd):
+            n = n / b
+        while (n > 0):
+            palin = palin * b + (n % b)
+            n = n / b
+        return palin
+
+    par = []
+    def generatePaldindromes(n):
+        for j in range(2):
+            i = 1
+            while (createPalindrome(i, 10, j % 2) < n):
+                par.append( createPalindrome(i, 10, j % 2) )
+                i = i + 1
+
+    n = 10 ** 9 + 10
+
+    def isprime(x):
+        if x <= 1:
+            return False
+        elif x == 2:
+            return True
+        for i in xrange(2, int(x**0.5) + 1):
+            if x % i == 0:
+                return False
+        return True
+
+    pp = []
+    def gen_pp():
+        generatePaldindromes(n)
+        for x in par:
+            if isprime(x):
+                pp.append(x)
+
+    gen_pp()
+    print len(pp)
+    pp.sort()
+    # for x in pp:
+    #     print x
+    print pp

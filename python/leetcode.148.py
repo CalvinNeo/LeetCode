@@ -5,7 +5,7 @@ class ListNode(object):
         self.next = None
 
 class Solution(object):
-    def sortList(self, head):
+    def sortListTLE(self, head):
         """
         :type head: ListNode
         :rtype: ListNode
@@ -42,6 +42,60 @@ class Solution(object):
 
         part(0, head, tail)
         return head
+        
+    def sortList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if head == None:
+            return head
+
+        def part(fr):
+            to = fr
+            while to.next != None:
+                to = to.next
+
+            if fr == None or fr.next == None:
+                return fr
+            slow = fr
+            fast = fr
+            while fast.next and fast.next.next:
+                slow = slow.next
+                fast = fast.next.next
+
+            start2 = slow.next
+            slow.next = None
+
+            lhead = part(fr)
+            rhead = part(start2)
+
+            if not lhead and not rhead:
+                return None
+            elif not lhead:
+                return rhead
+            elif not rhead:
+                return lhead
+            else:
+                # merge
+                H = ListNode(None)
+                C = H
+                while lhead and rhead:
+                    if lhead.val < rhead.val:
+                        C.next = lhead
+                        C = C.next
+                        lhead = lhead.next
+                    else:
+                        C.next = rhead
+                        C = C.next
+                        rhead = rhead.next
+                if lhead:
+                    C.next = lhead
+                elif rhead:
+                    C.next = rhead
+            return H.next
+
+        return part(head)
 
 def make_list(lst):
     l = None

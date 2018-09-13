@@ -1,20 +1,26 @@
-# 868 c92.1
 class Solution(object):
-    def transpose(self, A):
+    def binaryGap(self, N):
         """
-        :type A: List[List[int]]
-        :rtype: List[List[int]]
+        :type N: int
+        :rtype: int
         """
-        n = len(A)
-        if n == 0:
-            return []
-        m = len(A[0])
-        ans = []
-        for i in xrange(m):
-            L = [l[i] for l in A]
-            ans.append(L)
+        s = bin(N)[2:]
+        n = len(s)
+        dp = [-1 for i in xrange(n)]
+        for i in xrange(n - 2, -1, -1):
+            if s[i + 1] == '1':
+                dp[i] = i + 1
+            else:
+                dp[i] = dp[i + 1]
+        ans = 0
+        for i in xrange(n):
+            if dp[i] != -1:
+                ans = max(ans, dp[i] - i)
+        # print dp
         return ans
 
 sln = Solution()
-print sln.transpose([[1,2,3],[4,5,6],[7,8,9]])
-print sln.transpose([[1,2,3],[4,5,6]])
+print sln.binaryGap(22)
+print sln.binaryGap(5)
+print sln.binaryGap(6)
+print sln.binaryGap(8)
