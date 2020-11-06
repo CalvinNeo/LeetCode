@@ -29,7 +29,14 @@ class Solution(object):
 
         def valid(x, y, l):
             s = None
-            # print "x {} y {}".format(x, y)
+            st = set()
+            for i in xrange(x, x + l):
+                for j in xrange(y, y + l):
+                    if not grid[i][j] in range(1, 10):
+                        return False
+                    if grid[i][j] in st:
+                        return False
+                    st.add(grid[i][j])
 
             for i in xrange(x, x + l):
                 ss = 0
@@ -42,12 +49,14 @@ class Solution(object):
                 elif s != ss:
                     return False
 
+            # print "x {} y {} s {}".format(x, y, s)
+
             for i in xrange(y, y + l):
                 ss = 0
                 if x == 0:
                     ss = col_sum[x+l-1][i]
                 else:
-                    ss = col_sum[x+l-1][i] - row_sum[x-1][i]
+                    ss = col_sum[x+l-1][i] - col_sum[x-1][i]
                 if s == None:
                     s = ss
                 elif s != ss:
@@ -76,11 +85,12 @@ class Solution(object):
             for j in xrange(m - 2):
                 if valid(i, j, 3):
                     ans += 1
-                # print "========================"
         return ans
 
-sln = Solution()
+        
+# sln = Solution()
 # print sln.numMagicSquaresInside([[4,3,8,4],
 #         [9,5,1,9],
 #         [2,7,6,2]]) # 1
-print sln.numMagicSquaresInside([[10,3,5],[1,6,11],[7,9,2]]) # 1
+# print sln.numMagicSquaresInside([[10,3,5],[1,6,11],[7,9,2]]) # 0
+# print sln.numMagicSquaresInside([[3,2,9,2,7],[6,1,8,4,2],[7,5,3,2,7],[2,9,4,9,6],[4,3,8,2,5]]) # 1

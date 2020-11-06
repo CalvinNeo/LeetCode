@@ -63,7 +63,7 @@ class Solution(object):
                 ans += 1
         return ans
 
-    def maxChunksToSorted(self, arr):
+    def maxChunksToSortedLinear(self, arr):
         """
         :type arr: List[int]
         :rtype: int
@@ -90,14 +90,40 @@ class Solution(object):
         #     else:
         #         right[i] = min(arr[i], right[i + 1])
 
-        print left
-        print right
+        # print left
+        # print right
         ans = 0
         for i in xrange(n):
             if right[i] >= max(arr[i], left[i]):
                 ans += 1
         return ans
 
+    def maxChunksToSortedStack(self, arr):
+        """
+        :type arr: List[int]
+        :rtype: int
+        """
+        stk = []
+        for x in arr:
+            if (not stk) or x >= stk[-1]:
+                stk.append(x)
+            else:
+                cur_max = stk[-1]
+                while stk:
+                    if x < stk[-1]:
+                        stk.pop()
+                    else:
+                        break
+                stk.append(cur_max)
+
+        return len(stk)
+
+    def maxChunksToSorted(self, arr):
+        """
+        :type arr: List[int]
+        :rtype: int
+        """
+        return self.maxChunksToSortedStack(arr)
 
 sln = Solution()
 print sln.maxChunksToSorted([1, 2]) # 2

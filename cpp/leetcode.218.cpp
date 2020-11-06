@@ -71,54 +71,54 @@ int Query(int L, int R, int l, int r, int rt)
 class Solution {
 public:
     vector<pair<int, int>> getSkyline(vector<vector<int>>& buildings) {
-    	int n = buildings.size();
-    	memset(sum, 0, sizeof(sum));
-    	memset(lazy, -1, sizeof(lazy));
-    	int look_len = 0;
-    	int leftmost = MAX; int rightmost = 0;
-    	for(int i = 0; i < n; i++){
-			int l, r, h;
-			l = buildings[i][0];
-			r = buildings[i][1];
-			look[look_len++] = l;
-			look[look_len++] = r;
-		}
-		sort(look, look + look_len);
-		look_len = unique(look, look + look_len) - look;
-//		for(int i = 0; i < look_len; i++){
-//			printf("%d ", look[i]);
-//		}
-//		puts("");
+        int n = buildings.size();
+        memset(sum, 0, sizeof(sum));
+        memset(lazy, -1, sizeof(lazy));
+        int look_len = 0;
+        int leftmost = MAX; int rightmost = 0;
+        for(int i = 0; i < n; i++){
+            int l, r, h;
+            l = buildings[i][0];
+            r = buildings[i][1];
+            look[look_len++] = l;
+            look[look_len++] = r;
+        }
+        sort(look, look + look_len);
+        look_len = unique(look, look + look_len) - look;
+//      for(int i = 0; i < look_len; i++){
+//          printf("%d ", look[i]);
+//      }
+//      puts("");
         // printf("%d %d\n", leftmost, rightmost);
-    	for(int i = 0; i < n; i++){
-			int l, r, h;
-			l = buildings[i][0];
-			r = buildings[i][1];
-			h = buildings[i][2];
-			int ll = lower_bound(look, look + look_len, l) - look + 1;
-			int rr = lower_bound(look, look + look_len, r) - look + 1;
+        for(int i = 0; i < n; i++){
+            int l, r, h;
+            l = buildings[i][0];
+            r = buildings[i][1];
+            h = buildings[i][2];
+            int ll = lower_bound(look, look + look_len, l) - look + 1;
+            int rr = lower_bound(look, look + look_len, r) - look + 1;
             Update(ll, rr - 1, h, 1, look_len, 1);
-		}
+        }
         vector<pair<int, int>> ans;
         int prev = 0;
-    	for(int i = 0; i < look_len; i++){
+        for(int i = 0; i < look_len; i++){
             int cur = Query(i + 1, i + 1, 1, look_len, 1);
             if (cur != prev){
 //            printf("%d %d\n", look[i], cur);
-            	ans.push_back(make_pair(look[i], cur));
-				prev = cur;
-			}
-		}
+                ans.push_back(make_pair(look[i], cur));
+                prev = cur;
+            }
+        }
         return ans;
     }
 };
 
 int main()
 {
-	Solution sln;
-	vector<vector<int>> v = { {2, 9, 10}, {3, 7, 15}, {5, 12, 12}, {15, 20, 10}, {19, 24, 8} };
-	vector<pair<int, int>> ans = sln.getSkyline(v);
-	v = {{1,2,1},{2147483646,2147483647,2147483647}};
-	ans = sln.getSkyline(v);
-	
+    Solution sln;
+    vector<vector<int>> v = { {2, 9, 10}, {3, 7, 15}, {5, 12, 12}, {15, 20, 10}, {19, 24, 8} };
+    vector<pair<int, int>> ans = sln.getSkyline(v);
+    v = {{1,2,1},{2147483646,2147483647,2147483647}};
+    ans = sln.getSkyline(v);
+    
 }

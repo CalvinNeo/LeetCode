@@ -18,6 +18,9 @@ void PushDown(int root, int ln, int rn)
 {
     if(lazy[root] != -1)
     {
+        // Query时向下传递lazy值
+        // 根据本层的lazy信息，更新下一层的节点值和lazy值
+        // 这里lazy值甚至可以存一个对节点的delta更新操作的值，详见732
         sum[root << 1] = max(lazy[root], sum[root << 1]);
         sum[root << 1 | 1] = max(lazy[root], sum[root << 1 | 1]);
         lazy[root << 1] = max(lazy[root], lazy[root << 1]);
@@ -71,8 +74,8 @@ public:
     vector<int> fallingSquares(vector<pair<int, int>>& positions) {
         vector<int> ans;
         memset(look, 0, sizeof look);
-    	memset(lazy, -1, sizeof(lazy));
-    	memset(sum, 0, sizeof(sum));
+        memset(lazy, -1, sizeof(lazy));
+        memset(sum, 0, sizeof(sum));
         for (int i = 0; i < positions.size(); i++){
             look[look_len++] = positions[i].first;
             look[look_len++] = positions[i].first - 1;
@@ -81,13 +84,13 @@ public:
             look[look_len++] = positions[i].first + positions[i].second - 1;
             look[look_len++] = positions[i].first + positions[i].second + 1;
         }
-		sort(look, look + look_len);
+        sort(look, look + look_len);
 //        for(int i = 0; i < look_len; i ++){
 //            printf("%d ", look[i]);
 //        }
 //        puts("");
-		look_len = unique(look, look + look_len) - look;
-		int tot = 0;
+        look_len = unique(look, look + look_len) - look;
+        int tot = 0;
         for (int i = 0; i < positions.size(); i++){
             int l = lower_bound(look, look + look_len, positions[i].first) - look;
             int r = lower_bound(look, look + look_len, positions[i].first + positions[i].second) - look;

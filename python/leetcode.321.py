@@ -1,5 +1,12 @@
+def toint(nums):
+    m = 0
+    for x in nums:
+        m *= 10
+        m += x
+    return m
+
 class Solution(object):
-    def maxNumber(self, nums1, nums2, k):
+    def maxNumberTLE(self, nums1, nums2, k):
         """
         :type nums1: List[int]
         :type nums2: List[int]
@@ -59,14 +66,6 @@ class Solution(object):
                 if len(ans) < req:
                     ans.append(nums[i])
             return ans
-
-
-        def toint(nums):
-            m = 0
-            for x in nums:
-                m *= 10
-                m += x
-            return m
 
         def merge(lp, rp):
             ans = []
@@ -133,11 +132,90 @@ class Solution(object):
 
         return mans
 
-sln = Solution()
+    def maxNumber(self, nums1, nums2, k):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        n1 = len(nums1)
+        n2 = len(nums2)
+
+        def select(A, m):
+            # Choose m from A such that they make the biggest number
+            n = len(A)
+            stk = []
+            for i, x in enumerate(A):
+                while stk and stk[-1] < x and len(stk) + n - (i + 1) >= m:
+                    stk.pop()
+                stk.append(x)
+            return stk[:m]
+
+        def greater(A, i, B, j):
+            nn1 = len(A)
+            nn2 = len(B)
+            while i < nn1 and j < nn2 and A[i] == B[j]:
+                i += 1
+                j += 1
+            if i >= nn1 and j >= nn2:
+                # Equal
+                return True
+            elif i >= nn1:
+                # B greater
+                return False
+            elif j >= nn2:
+                return True
+            else:
+                return A[i] > B[j]
+
+        def merge(A, B):
+            nn1 = len(A)
+            nn2 = len(B)
+            i = 0
+            j = 0
+            r = []
+            while i < nn1 and j < nn2:
+                if greater(A, i, B, j):
+                    r.append(A[i])
+                    i += 1
+                else:
+                    r.append(B[j])
+                    j += 1
+            if i < nn1:
+                r.extend(A[i:])
+            if j < nn2:
+                r.extend(B[j:])
+            return r
+
+        current = 0
+        ans = []
+        for a in xrange(0, k + 1):
+            b = k - a
+            if a > n1 or b > n2:
+                continue
+            la = select(nums1, a)
+            lb = select(nums2, b)
+            p = merge(la, lb)
+            np = toint(p)
+            if np > current:
+                current = np
+                ans = p
+        return ans
+
+# sln = Solution()
+# # [9, 8, 6, 5, 3]
+# # [6, 7, 6, 0, 4]
+# # [9, 8, 9]
+# # [9, 7, 5]
+# # [9, 9, 8, 7]
+# # [6, 9, 7, 0, 5, 6, 0]
+# # [0, 6, 5, 7, 6, 2, 0]
 # print sln.maxNumber([3, 4, 6, 5], [9, 1, 2, 5, 8, 3], 5)
 # print sln.maxNumber([6, 7], [6, 0, 4], 5)
 # print sln.maxNumber([3, 9], [8, 9], 3)
 # print sln.maxNumber([8, 6, 9], [1, 7, 5], 3) # 9 7 5
 # print sln.maxNumber([8,7,1,5], [9,7,9,1], 4)
 # print sln.maxNumber([6,9,7,0], [0,5,6], 7)
-print sln.maxNumber([0], [0,6,5,7,6,2], 7)
+# print sln.maxNumber([0], [0,6,5,7,6,2], 7)
+# print sln.maxNumber([2,5,6,4,4,0], [7,3,8,0,6,5,7,6,2], 15)
