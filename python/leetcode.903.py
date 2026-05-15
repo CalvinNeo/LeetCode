@@ -6,6 +6,12 @@ class Solution(object):
         :type S: str
         :rtype: int
         """
+        
+    def numPermsDISequencePrev(self, S):
+        """
+        :type S: str
+        :rtype: int
+        """
         dp = [[0 for i in range(202)] for j in range(202)]
         n = len(S) + 1
 

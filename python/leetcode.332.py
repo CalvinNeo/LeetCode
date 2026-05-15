@@ -62,6 +62,7 @@ class Solution(object):
         :type tickets: List[List[str]]
         :rtype: List[str]
         """
+        # V -> ticket id
         G = {}
         n = len(tickets)
         for (i, (f, t)) in enumerate(tickets):

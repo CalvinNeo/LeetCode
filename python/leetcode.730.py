@@ -52,12 +52,18 @@ class Solution(object):
         """
         n = len(S)
         MOD = 10**9+7
+        dp = [[-1 for i in xrange(n)] for j in xrange(n)]
+        def c(l, r):
+            if dp[l][r] != -1:
+                return dp[l][r]
+            if S[l] == S[r]:
+                c(l+1, r-1)
+            else:
+                c(l+1, r) + c(l, r-1) + c(l+1, r-1)
 
-        
-        
         return ans
 
 sln = Solution()
-# print sln.countPalindromicSubsequencesNO('bccb') # 9
-print sln.countPalindromicSubsequences('bccb') # 6
-# print sln.countPalindromicSubsequences('abcdabcdabcdabcdabcdabcdabcdabcddcbadcbadcbadcbadcbadcbadcbadcba') # 104860361
+# print sln.countPalindromicSubsequences('bccb') # 9
+# print sln.countPalindromicSubsequences('bccb') # 6
+print sln.countPalindromicSubsequences('abcdabcdabcdabcdabcdabcdabcdabcddcbadcbadcbadcbadcbadcbadcbadcba') # 104860361

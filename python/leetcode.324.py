@@ -27,7 +27,7 @@ def nth_element(arr, n):
 
 # https://paste.ubuntu.com/26511493/
 class Solution(object):      
-    def wiggleSort(self, nums):
+    def wiggleSort1(self, nums):
         """
         :type nums: List[int]
         :rtype: void Do not return anything, modify nums in-place instead.
@@ -38,23 +38,106 @@ class Solution(object):
         mid = nth_element(nums, (length - 1) / 2)
         l, eq, r = 0, 0, length - 1
         # 1 3 5 0 2 4 ...
-        m = lambda i : (1+2*i) % (length|1)
+        f = lambda i : (1+2*i) % (length|1)
+        def p():
+            print "f", [f(i) for i in range(length)]
+            print "r", [nums[f(i)] for i in range(length)]
+            print "o", [nums[i] for i in range(length)]
+        p()
         while eq <= r:
-            if nums[m(eq)] > mid:
-                nums[m(eq)], nums[m(l)] = nums[m(l)], nums[m(eq)]
+            if nums[f(eq)] > mid:
+                nums[f(eq)], nums[f(l)] = nums[f(l)], nums[f(eq)]
                 eq += 1
                 l += 1
-            elif nums[m(eq)] < mid:
-                nums[m(eq)], nums[m(r)] = nums[m(r)], nums[m(eq)]
+            elif nums[f(eq)] < mid:
+                nums[f(eq)], nums[f(r)] = nums[f(r)], nums[f(eq)]
                 r -= 1
             else:
                 eq += 1
+            p()
+
+    def wiggleSortWA(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        if n < 2:
+            return
+        mid = nth_element(nums, (n - 1) / 2)
+        def f(i):
+            if i < (n + 1) / 2:
+                return i * 2
+            else:
+                return (i - (n + 1) / 2) * 2 + 1
+
+        def p():
+            print "f", [f(i) for i in range(n)]
+            print "r", [nums[f(i)] for i in range(n)]
+            print "o", [nums[i] for i in range(n)]
+
+        # p()
+        i, eq, j = -1, -1, -1
+        while j + 1 <= n - 1:
+            if nums[f(j + 1)] > mid:
+                j += 1
+            elif nums[f(j + 1)] == mid:
+                j += 1
+                eq += 1
+                nums[f(j)], nums[f(eq)] = nums[f(eq)], nums[f(j)]
+            else:
+                j += 1
+                eq += 1
+                i += 1
+                t = nums[f(j)]
+                nums[f(j)] = nums[f(eq)]
+                nums[f(eq)] = nums[f(i)]
+                nums[f(i)] = t
+            # p()
+
+    def wiggleSort(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        if n < 2:
+            return
+        mid = nth_element(nums, (n - 1) / 2)
+        def f(i):
+            return (1+2*i) % (n|1)
+
+        def p():
+            print "f", [f(i) for i in range(n)]
+            print "r", [nums[f(i)] for i in range(n)]
+            print "o", [nums[i] for i in range(n)]
+
+        # p()
+        i, eq, j = -1, -1, -1
+        while j + 1 <= n - 1:
+            if nums[f(j + 1)] < mid:
+                j += 1
+            elif nums[f(j + 1)] == mid:
+                j += 1
+                eq += 1
+                nums[f(j)], nums[f(eq)] = nums[f(eq)], nums[f(j)]
+            else:
+                j += 1
+                eq += 1
+                i += 1
+                t = nums[f(j)]
+                nums[f(j)] = nums[f(eq)]
+                nums[f(eq)] = nums[f(i)]
+                nums[f(i)] = t
+            # p()
 
 sln = Solution()
-nn = [1]
-nn = [1,1,1,2,2,2]
+nn = [1] # 1
+nn = [4,5,5,6] # 5 6 4 5
+# nn = [1,1,2,2] # 1 2 1 2
+nn = [1,1,1,2,2,2] # 1 2 1 2 1 2
 # nn = [1,1,1,2,2]
 # nn = [2,1,1,2,1,3,3,3,1,3,1,3,2]
 # nn = [1,3,2,2,3,1]
 sln.wiggleSort(nn)
-print nn
+print (nn)

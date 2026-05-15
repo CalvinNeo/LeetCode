@@ -23,7 +23,7 @@ class Solution(object):
             self.generate(500)
         return self.T[n - 1]
 
-    def nthUglyNumber(self, n):
+    def nthUglyNumberAC(self, n):
         """
         :type n: int
         :rtype: int
@@ -44,8 +44,32 @@ class Solution(object):
             ans.append(t)
         return ans[-1]
 
+    def nthUglyNumber(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        ans = [1]
+        a = [0, 0, 0]
+        T = [2, 3, 5]
+        for i in xrange(1, n):
+            nxt = []
+            for j in xrange(3):
+                while True:
+                    candi = ans[a[j]] * T[j]
+                    if candi > ans[-1] or a[j] + 1 >= len(ans):
+                        nxt.append(candi)
+                        break
+                    a[j] += 1
+
+            mi, mv = min(enumerate(nxt), key=lambda x: x[1])
+            a[mi] += 1
+            ans.append(mv)
+        return ans[-1]
+
 sln = Solution()
-print sln.nthUglyNumber1(355)
-print sln.nthUglyNumber(355)
-print sln.nthUglyNumber(1)
+# print sln.nthUglyNumber1(355)
+# print sln.nthUglyNumber(355)
+# print sln.nthUglyNumber(1)
 print sln.nthUglyNumber(20)
+print sln.nthUglyNumber(10)

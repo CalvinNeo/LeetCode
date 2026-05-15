@@ -139,6 +139,41 @@ class Solution(object):
         # return fk3(nums, 0, n - 1, n - k)
         return hk1(nums, 0, n - 1, k)
 
+class Solution20230318(object):
+    def findKthLargest(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        k -= 1
+        k = len(nums) - k - 1
+        def find(fr, to):
+            # the o-th(start from 0) in [fr, to)
+            if fr >= to:
+                return nums[fr]
+            v = nums[to]
+            i = fr - 1
+            j = fr - 1
+            while j + 1 <= to:
+                if nums[j + 1] <= v:
+                    j = j + 1
+                    i = i + 1
+                    nums[j], nums[i] = nums[i], nums[j]
+                elif nums[j + 1] > v:
+                    j = j + 1
+            # while i + 1 <= to and nums[i + 1] == v:
+            #     i = i + 1
+            # print("FINISH fr {} to {} i {} j {} k {} nums {}".format(fr, to, i, j, k, nums))
+            if k < i:
+                return find(fr, i - 1)
+            elif k == i:
+                return nums[i]
+            else:
+                return find(i + 1, to)
+
+        return find(0, len(nums) - 1)
+
 sln = Solution()
 # K-th smallest 2 1 1 2 3 3 0 2 5 5
 
